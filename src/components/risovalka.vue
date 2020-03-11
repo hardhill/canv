@@ -21,7 +21,9 @@ export default {
     RectDraw(ctx) {
         ctx.beginPath();
         ctx.rect(0, 0, 800, 600);
+        ctx.fillStyle = 'gray'
         ctx.fillRect(0,0,800,600)
+
         ctx.stroke();
     }
   }

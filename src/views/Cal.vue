@@ -3,7 +3,7 @@
     <div class="cal">
       <div class="caption">
         <div class="ml">&larr;</div>
-        <div class="mname">{{month}}</div>
+        <div class="mname">{{Month}}</div>
         <div class="mr">&rarr;</div>
       </div>
     </div>
@@ -15,25 +15,18 @@ import Calendur from '@/assets/calendur'
 export default {
   data: () => {
     return {
-      month: 0
+      monthname: ''
     };
   },
   computed: {
-    Month: {
-      get: () => {
-        return this.month;
-      },
-      set: value => {
-        this.month = value;
-      }
-    }
+    Month(){ return this.monthname}
   },
   mounted() {
     var now = new Date();
     var calendur = new Calendur(now)
-    
     var sMonth = calendur.NameMonth
-    this.month = sMonth;
+    console.log(calendur.NameMonth)
+    this.monthname = sMonth;
   }
 };
 </script>

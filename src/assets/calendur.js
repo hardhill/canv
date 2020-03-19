@@ -1,24 +1,26 @@
+var moment = require('moment')
+
 class Calendur {
-    curDate = new Date();
+    curDate = moment();
     year = 0
     month = 0
     //номер месяца 0-январь
     get GetMonth(){
-        this.month = this.curDate.getMonth()
+        this.month = moment(this.curDate).month()
         return this.month
     }
     //год
     get GetFullYear(){
-        this.year = this.curDate.getFullYear()
+        this.year = moment(this.curDate).year()
         return this.year
     }
     //дата первого дня месяца
     get GetFirstDayMonth(){
-        return new Date(this.GetFullYear,this.GetMonth,1)
+        return moment([this.GetFullYear, this.GetMonth,1])
     }
     //дата последнего дня в месяце
     get GetLastDayMonth(){
-        return new Date(this.GetFullYear,this.GetMonth,this.MaxDaysInMonth(this.year,this.month))
+        return moment(this.GetFirstDayMonth).endOf('month')
     }
     //сколько дней в месяце
     MaxDaysInMonth(y,m){
@@ -70,20 +72,48 @@ class Calendur {
         }
         return s
     }
+    get YearName(){
+        return moment(this.curDate).year()
+    }
     //номер дня недели по-русски
     GetDayRus(nomday){
         return (nomday==0)?6:nomday-1
     }
     get MonthDays(){
         var arrDays = new Array()
-        var dayofw1 = this.GetDayRus(this.GetFirstDayMonth.getDay())
-        var dayofw2 = this.GetDayRus(this.GetLastDayMonth.getDay())
-        var setFirst = new Date().setDate(this.GetFirstDayMonth - dayofw1)
-        var setLast = new Date().setDate(this.GetLastDayMonth+(6-dayofw2)) 
-        arrDays.push(setFirst)
-        do{
-
-        }while()
+        var dayofw1 = this.GetDayRus(this.GetFirstDayMonth.day())
+        var dayofw2 = this.GetDayRus(this.GetLastDayMonth.day())
+        var setFirst = moment(this.GetFirstDayMonth).subtract(dayofw1+1,'days')
+        var setLast = moment(this.GetLastDayMonth).add((6-dayofw2),'d')
+        var cDate = moment(setFirst)
+        while(cDate<moment(setLast).subtract(1,'days')){
+            cDate=moment(cDate.add(1,'d'))
+            arrDays.push(cDate)
+        }
+        return arrDays
+    }
+    Back(){
+        this.curDate = moment(this.curDate).subtract(1,'M')
+    }
+    Forward(){
+        this.curDate = moment(this.curDate).add(1,'M')
+    }
+    get MonthDaysArr(){
+        var arrDays = new Array()
+        
+        var arrWeek = new Array()
+        this.MonthDays.forEach((element,idx) => {
+            var el = {
+                date:element,
+                wname: moment(element).format('dddd'),
+                dname: moment(element).format('dd')
+            }
+            arrWeek.push(el)
+            if(idx in [6,13,20,27,34,41,48,55]){
+                arrDays.push(arrWeek)
+                arrWeek = []
+            }
+        });
         return arrDays
     }
     constructor (date){

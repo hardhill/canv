@@ -1,10 +1,14 @@
 <template>
   <div class="panel">
     <div class="cal">
+      <div class="year">{{Year}}</div>
       <div class="caption">
-        <div class="ml">&larr;</div>
+        <div class="ml" @click="Back()">&larr;</div>
         <div class="mname">{{Month}}</div>
-        <div class="mr">&rarr;</div>
+        <div class="mr" @click="Forward()">&rarr;</div>
+      </div>
+      <div>
+        <div v-for="week in Calend" :key="week.date"></div>
       </div>
     </div>
   </div>
@@ -15,18 +19,39 @@ import Calendur from '@/assets/calendur'
 export default {
   data: () => {
     return {
-      monthname: ''
+      monthname: '',
+      yearname:'',
+      calendur: null,
+      monthdays:[]
     };
+    
   },
   computed: {
-    Month(){ return this.monthname}
+    Month(){ return this.monthname},
+    Year(){ return this.yearname},
+    Calend(){return this.monthdays}
+  },
+  methods:{
+    Back(){
+      this.calendur.Back()
+      this.monthname = this.calendur.NameMonth
+      this.yearname = this.calendur.YearName
+    },
+    Forward(){
+      this.calendur.Forward()
+      this.monthname = this.calendur.NameMonth
+      this.yearname = this.calendur.YearName
+    }
   },
   mounted() {
     var now = new Date();
     var calendur = new Calendur(now)
-    var sMonth = calendur.NameMonth
-    console.log(calendur.NameMonth)
-    this.monthname = sMonth;
+    this.monthname = calendur.NameMonth
+    this.yearname = calendur.YearName
+    this.calendur = calendur
+    this.monthdays = calendur.MonthDaysArr
+    console.log(calendur.MonthDaysArr)
+
   }
 };
 </script>
@@ -44,6 +69,11 @@ export default {
 .caption {
   display: flex;
   align-items: center;
+}
+.year{
+  width: 100%;
+  text-align: center;
+  padding: 0.5rem 0rem;
 }
 .mr,
 .ml {

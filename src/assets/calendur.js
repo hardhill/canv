@@ -82,8 +82,9 @@ class Calendur {
     get MonthDays(){
         var arrDays = new Array()
         var dayofw1 = this.GetDayRus(this.GetFirstDayMonth.day())
+        console.log('week:',dayofw1)
         var dayofw2 = this.GetDayRus(this.GetLastDayMonth.day())
-        var setFirst = moment(this.GetFirstDayMonth).subtract(dayofw1+1,'days')
+        var setFirst = moment(this.GetFirstDayMonth).subtract(dayofw1,'d')
         var setLast = moment(this.GetLastDayMonth).add((6-dayofw2),'d')
         var cDate = moment(setFirst)
         while(cDate<moment(setLast).subtract(1,'days')){
@@ -100,21 +101,22 @@ class Calendur {
     }
     get MonthDaysArr(){
         var arrDays = new Array()
-        
         var arrWeek = new Array()
+        console.log(this.MonthDays)
         this.MonthDays.forEach((element,idx) => {
             var el = {
                 date:element,
                 wname: moment(element).format('dddd'),
                 dname: moment(element).format('dd')
             }
-            arrWeek.push(el)
+            arrDays.push(el)
             if(idx in [6,13,20,27,34,41,48,55]){
-                arrDays.push(arrWeek)
-                arrWeek = []
+                arrWeek.push(arrDays)
+                arrDays = []
+                
             }
         });
-        return arrDays
+        return arrWeek
     }
     constructor (date){
         this.curDate = date

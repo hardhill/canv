@@ -8,7 +8,7 @@
         <div class="mr" @click="Forward()">&rarr;</div>
       </div>
       <div>
-        <div v-for="week in Calend" :key="week.date"></div>
+        <div v-for="week in Calend" :key="week.date">{{week[0].wname}}</div>
       </div>
     </div>
   </div>

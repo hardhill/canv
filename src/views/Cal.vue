@@ -8,7 +8,7 @@
         <div class="mr" @click="Forward()">&rarr;</div>
       </div>
       <div>
-        <div v-for="week in Calend" :key="week.date">{{week[0].wname}}</div>
+        <div v-for="(week,index) in Calend" :key="week.date">{{week[index].date}}</div>
       </div>
     </div>
   </div>
@@ -50,7 +50,7 @@ export default {
     this.yearname = calendur.YearName
     this.calendur = calendur
     this.monthdays = calendur.MonthDaysArr
-    console.log(calendur.MonthDaysArr)
+    
 
   }
 };

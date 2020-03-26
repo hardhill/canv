@@ -79,17 +79,17 @@ class Calendur {
     GetDayRus(nomday){
         return (nomday==0)?6:nomday-1
     }
-    get MonthDays(){
+    get MonthDaysEx(){
         var arrDays = new Array()
         var dayofw1 = this.GetDayRus(this.GetFirstDayMonth.day())
-        console.log('week:',dayofw1)
         var dayofw2 = this.GetDayRus(this.GetLastDayMonth.day())
-        var setFirst = moment(this.GetFirstDayMonth).subtract(dayofw1,'d')
-        var setLast = moment(this.GetLastDayMonth).add((6-dayofw2),'d')
-        var cDate = moment(setFirst)
-        while(cDate<moment(setLast).subtract(1,'days')){
-            cDate=moment(cDate.add(1,'d'))
-            arrDays.push(cDate)
+        var setFirst = this.GetFirstDayMonth.subtract(dayofw1,'d')
+        var setLast = this.GetLastDayMonth.add((6-dayofw2),'d')
+        var cDate = setFirst
+        while(cDate<setLast){
+            
+            arrDays.push(moment(cDate))
+            cDate=cDate.add(1,'d')
         }
         return arrDays
     }
@@ -102,16 +102,18 @@ class Calendur {
     get MonthDaysArr(){
         var arrDays = new Array()
         var arrWeek = new Array()
-        console.log(this.MonthDays)
-        this.MonthDays.forEach((element,idx) => {
+        this.MonthDaysEx.forEach((element) => {
             var el = {
-                date:element,
-                wname: moment(element).format('dddd'),
-                dname: moment(element).format('dd')
+                date:element.date(),
+                wname: element.day(),
+                dname: element.format('dd')
             }
             arrDays.push(el)
-            if(idx in [6,13,20,27,34,41,48,55]){
+            
+            if(el.wname==0){
                 arrWeek.push(arrDays)
+                
+                console.log(arrDays)
                 arrDays = []
                 
             }

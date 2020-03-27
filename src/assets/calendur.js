@@ -112,8 +112,6 @@ class Calendur {
             
             if(el.wname==0){
                 arrWeek.push(arrDays)
-                
-                console.log(arrDays)
                 arrDays = []
                 
             }

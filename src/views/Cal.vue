@@ -8,7 +8,9 @@
         <div class="mr" @click="Forward()">&rarr;</div>
       </div>
       <div>
-        <div v-for="(week,index) in Calend" :key="week.date">{{week[index].date}}</div>
+        <div class="weekline" v-for="(week,index) in Calend" :key="index">
+            <div class="daycell" v-for="(day,idx) in week" :key="idx">{{day.date}}</div>
+        </div>
       </div>
     </div>
   </div>
@@ -36,11 +38,13 @@ export default {
       this.calendur.Back()
       this.monthname = this.calendur.NameMonth
       this.yearname = this.calendur.YearName
+      this.monthdays = this.calendur.MonthDaysArr
     },
     Forward(){
       this.calendur.Forward()
       this.monthname = this.calendur.NameMonth
       this.yearname = this.calendur.YearName
+      this.monthdays = this.calendur.MonthDaysArr
     }
   },
   mounted() {
@@ -81,5 +85,15 @@ export default {
   padding: 1rem;
   color: rgb(3, 27, 37);
   font-size: 1rem;
+}
+.weekline{
+  display: flex;
+  justify-content: space-around;
+}
+.daycell{
+  padding: 2px;
+  text-align: right;
+  width: 24px;
+  cursor: pointer;
 }
 </style>
